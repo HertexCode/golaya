@@ -1,0 +1,35 @@
+# Override para producción (Dokploy / home lab / VPS).
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Requiere un archivo .env en la raíz con los valores reales
+# (copia .env.example y edítalo). Las variables con :? fallan al
+# arrancar si faltan, para evitar despliegues con secretos de dev.
+services:
+  db:
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+
+  backend:
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILE_ACTIVE: ${SPRING_PROFILE_ACTIVE:-prod}
+      URL_DB: ${URL_DB:-jdbc:postgresql://db:5432/golaya_db}
+      USERNAME_DB: ${USERNAME_DB:-postgres}
+      PASSWORD_DB: ${PASSWORD_DB:-${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}}
+      JWT_SECRET: ${JWT_SECRET:?Define JWT_SECRET en .env (>=32 caracteres)}
+      CORS_URLS: ${CORS_URLS:?Define CORS_URLS en .env (origen del frontend)}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+
+  frontend:
+    restart: unless-stopped
+
+  seed:
+    # El seed es solo de desarrollo. En producción, si necesitas los
+    # datos de fábrica, ejecútalo bajo demanda:
+    #   docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile seed run --rm seed
+    profiles: ["seed"]

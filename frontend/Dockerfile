@@ -1,12 +1,10 @@
-# Etapa 1: compilar el proyecto con Maven
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
+# Frontend estático servido con nginx
+FROM nginx:1.27-alpine
 
-# Etapa 2: imagen final solo con el JAR
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Estáticos en el web root (nginx.conf se copia aparte y se quita de aquí)
+COPY . /usr/share/nginx/html
+RUN rm -f /usr/share/nginx/html/nginx.conf
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80

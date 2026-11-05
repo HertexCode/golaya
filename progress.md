@@ -34,29 +34,31 @@ Registro de avance del monorepo. Ir actualizando este archivo en cada paso.
 
 ## Fase 2 — Trabajo técnico
 
-- [ ] 7. `docker-compose.yml`: `db` (Postgres 16 + healthcheck + volumen), `backend` (defaults de dev), `frontend` (nginx :8000), `seed` (espera Flyway → `DATABASE/seed_data.sql`)
-- [ ] 8. `frontend/Dockerfile`: reemplazar copia Maven errónea por `nginx:alpine` + `nginx.conf` (gzip, caché `assets/`, HTML `no-cache`)
-- [ ] 9. `frontend/js/api/config.js`: auto-detección localhost → `http://localhost:8080/api/v1`, si no → producción. Comentario para migrar a `/api/v1` (Dokploy)
-- [ ] 10. `backend/.../application-dev.yaml`: defaults `${DB_HOST:localhost}`, `${POSTGRES_PASSWORD:postgres}`, `${JWT_SECRET:dev-secret-local}`, `${CORS_URLS:http://localhost:8000,...}`, Cloudinary vacío
-- [ ] 11. Seed automático: script `psql` con reintentos que espera las 5 migraciones de Flyway antes de insertar
-- [ ] 12. URLs relativas: reemplazar ~20+ referencias absolutas a `golaya.vercel.app` (CSS/HTML/JS)
-- [ ] 13. `docker-compose.prod.yml`: override Dokploy (sin `seed`, `restart: unless-stopped`, secrets desde `.env`)
-- [ ] 14. `backend/.env.example`: corregir typos (`PASSWORD-DB`, `URL_DB =`) + aclarar que en local no se necesita
-- [ ] 15. README raíz `golaya/`: quickstart Docker, credenciales, nota cold start Render, deploy Vercel/Render, migración a Dokploy
+- [x] 7. `docker-compose.yml`: `db` (Postgres 16 + healthcheck + volumen), `backend` (defaults de dev), `frontend` (nginx :8000), `seed` (espera Flyway → `DATABASE/seed_data.sql`)
+- [x] 8. `frontend/Dockerfile`: reemplazar copia Maven errónea por `nginx:alpine` + `nginx.conf` (gzip, caché `assets/`, HTML `no-cache`)
+- [x] 9. `frontend/js/api/config.js`: auto-detección localhost → `http://localhost:8080/api/v1`, si no → producción. Comentario para migrar a `/api/v1` (Dokploy)
+- [x] 10. `backend/.../application-dev.yaml`: defaults `${DB_HOST:localhost}`, `${POSTGRES_PASSWORD:postgres}`, `${JWT_SECRET:...}`, `${CORS_URLS:http://localhost:8000,...}`, Cloudinary vacío
+- [x] 11. Seed automático: `backend/scripts/wait-and-seed.sh` (espera las 5 migraciones, salta si el admin ya existe)
+- [x] 12. URLs relativas: 23 referencias a `golaya.vercel.app/assets/` → `/assets/` (meta tags SEO dejados absolutos)
+- [x] 13. `docker-compose.prod.yml`: override Dokploy (sin `seed` por defecto, `restart: unless-stopped`, secrets desde `.env` con `:?`)
+- [x] 14. `.env.example` corregidos (backend + uno nuevo en la raíz para el compose de producción)
+- [x] 15. README raíz `golaya/`: quickstart Docker, credenciales, cold start Render, deploy Vercel/Render, migración a Dokploy
+- [x] 15b. *(extra)* Wiring de `dotenv-java` en `main()` — el README prometía leer `.env` y nunca estaba implementado
 
 ## Fase 3 — Verificación
 
-- [ ] 16. `docker compose up --build` → probar login admin, canchas, sedes, galería en navegador
-- [ ] 17. `docker compose down -v` → subir de nuevo → arranque limpio desde cero
-- [ ] 18. `git log --follow backend/pom.xml` → historia preservada
+- [x] 16. `docker compose up --build` → login admin, canchas, sedes y perfil probados en navegador (Playwright): homepage con datos reales, login E2E → perfil "Administrador" con 20 reservas
+- [x] 17. `docker compose down -v` → arranque limpio desde cero: Flyway V1-V5 + seed + API/frontend en 200. Seed re-ejecutado: salta ("Los datos ya existen")
+- [x] 18. `git log --follow backend/pom.xml` → historia preservada cruza el rename
 
 ## Pasos manuales (usuario)
 
 - [ ] **Render:** poner Root Directory = `backend/` en el dashboard del servicio (sin esto, el próximo deploy falla)
 - [ ] **Repo frontend original (`HertexCode/devPortes`):** el usuario decide archivar/borrar cuando quiera
-- [ ] **Vercel:** verificar que el deploy siga apuntando bien tras el reordenamiento (no debería cambiar, el frontend no cambia de estructura interna)
+- [ ] **Vercel:** poner Root Directory = `frontend` en la configuración del proyecto (el repo ya no tiene `index.html` en la raíz; sin esto el deploy sirve 404)
 
 ## Log de cambios
 
 - **2026-11-04:** Creado `progress.md`. Plan v2 aprobado (monorepo simétrico baseado en el repo del backend).
 - **2026-11-04 — Fase 1 completa:** monorepo estructurado (`backend/` + `frontend/`) con la historia de git preservada, frontend importado, repo renombrado a `HertexCode/golaya` y todo pusheado. Commits: `0784779` (formato), `84c0dc5` (mv a backend/), `1be9d65` (import frontend).
+- **2026-11-04 — Fase 2+3 completas:** compose local (db/backend/frontend/seed), Dockerfile+nginx del frontend, config.js auto-detectable, defaults en dev, seed idempotente, URLs relativas, compose de producción, .env.example y README. Verificado E2E en navegador y arranque limpio `down -v` → `up`. Correcciones durante el camino: `.dockerignore` excluía `nginx.conf` (build roto) y `Dotenv.builder()` no existe en dotenv-java 2.2.4 (es `Dotenv.configure()`).

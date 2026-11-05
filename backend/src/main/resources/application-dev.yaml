@@ -7,9 +7,9 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/golaya_db
-    username: postgres
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/golaya_db
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -55,14 +55,16 @@ logging:
 api:
   security:
     token:
-      secret: ${JWT_SECRET}
+      # ≥32 caracteres (HS256). Solo para desarrollo.
+      secret: ${JWT_SECRET:golaya-dev-secret-0123456789abcdefghijklmnop}
       expiration: 86400
 
 app:
   cors:
-    allowed-origins: ${CORS_URLS}
+    allowed-origins: ${CORS_URLS:http://localhost:8000,http://localhost:5500,http://localhost:3000}
 
+# Vacío en local: el backend arranca igual; solo falla al subir imágenes.
 cloudinary:
-  cloud-name: ${CLOUDINARY_CLOUD_NAME}
-  api-key: ${CLOUDINARY_API_KEY}
-  api-secret: ${CLOUDINARY_API_SECRET}
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+  api-key: ${CLOUDINARY_API_KEY:}
+  api-secret: ${CLOUDINARY_API_SECRET:}

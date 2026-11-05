@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     superficie: '4 x 4 (750 mts)',
     precio: '$80.000',
     imagen:
-      'https://golaya.vercel.app/assets/img/canchas/futbol-estadio-principal.webp',
+      '/assets/img/canchas/futbol-estadio-principal.webp',
     sede: '',
     direccion: '',
     qrUbicacion: '',
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const imagenSrc =
       cancha.imagen ||
-      'https://golaya.vercel.app/assets/img/canchas/futbol-estadio-principal.webp';
+      '/assets/img/canchas/futbol-estadio-principal.webp';
     const detallesHTML =
       Array.isArray(cancha.detalles) && cancha.detalles.length
         ? cancha.detalles.map((d) => `<li class="mb-1">✔️ ${d}</li>`).join('')

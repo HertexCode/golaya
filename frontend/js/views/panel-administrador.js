@@ -514,7 +514,7 @@ async function renderCanchasGrid() {
       const badgeClass = cancha.estado === 'Disponible' ? 'green' : 'orange';
       const imagenSrc =
         cancha.imagen ||
-        'https://golaya.vercel.app/assets/img/canchas/baloncesto-coliseo.webp';
+        '/assets/img/canchas/baloncesto-coliseo.webp';
 
       card.innerHTML = `
         <div class="user-card-header" style="display: flex; align-items: center; gap: 12px">
@@ -745,7 +745,7 @@ window.abrirPerfilCancha = async function (id) {
 
     const imagenSrc =
       cancha.imagen ||
-      'https://golaya.vercel.app/assets/img/canchas/baloncesto-coliseo.webp';
+      '/assets/img/canchas/baloncesto-coliseo.webp';
 
     modalTitle.textContent = 'Detalles del Espacio Deportivo';
     modalBody.innerHTML = `
@@ -788,7 +788,7 @@ window.abrirEditarCancha = async function (id) {
     const modalBody = document.getElementById('modalBody');
     const imagenActual =
       cancha.imagen ||
-      'https://golaya.vercel.app/assets/img/canchas/baloncesto-coliseo.webp';
+      '/assets/img/canchas/baloncesto-coliseo.webp';
     const detallesRaw = Array.isArray(cancha.detalles) ? cancha.detalles.join('\n') : '';
 
     modalTitle.textContent = 'Editar Cancha / Escenario';
@@ -982,7 +982,7 @@ async function renderGaleriaGrid() {
 
       const imagenSrc =
         (post.urlPictures && post.urlPictures[0]) ||
-        'https://golaya.vercel.app/assets/img/torneodefutbol.jpg';
+        '/assets/img/torneodefutbol.jpg';
 
       const numFotos = post.urlPictures ? post.urlPictures.length : 0;
       const badgeFotos = numFotos > 1 ? `<span class="badge-tag green" style="margin-left: 6px">${numFotos} fotos</span>` : '';
@@ -1033,7 +1033,7 @@ window.abrirModalCrearPost = function () {
   const modal = document.getElementById('infoModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
-  const defaultImg = 'https://golaya.vercel.app/assets/img/torneodefutbol.jpg';
+  const defaultImg = '/assets/img/torneodefutbol.jpg';
 
   modalTitle.textContent = 'Crear Nueva Publicación';
   modalBody.innerHTML = `
@@ -1158,7 +1158,7 @@ window.abrirVerPostAdmin = async function (id) {
     const fotos =
       post.urlPictures && post.urlPictures.length > 0
         ? post.urlPictures
-        : ['https://golaya.vercel.app/assets/img/torneodefutbol.jpg'];
+        : ['/assets/img/torneodefutbol.jpg'];
 
     const slidesHtml = fotos
       .map(
@@ -1201,7 +1201,7 @@ window.abrirEditarPostAdmin = async function (id) {
     const fotosExistentes = Array.isArray(post.urlPictures) ? [...post.urlPictures] : [];
     const primerFoto =
       fotosExistentes[0] ||
-      'https://golaya.vercel.app/assets/img/torneodefutbol.jpg';
+      '/assets/img/torneodefutbol.jpg';
 
     modalTitle.textContent = 'Editar Publicación';
     modalBody.innerHTML = `
@@ -1267,7 +1267,7 @@ window.abrirEditarPostAdmin = async function (id) {
           previewImg.src = urlsActuales[0];
         } else if (previewImg) {
           previewImg.src =
-            'https://golaya.vercel.app/assets/img/torneodefutbol.jpg';
+            '/assets/img/torneodefutbol.jpg';
         }
       });
     });

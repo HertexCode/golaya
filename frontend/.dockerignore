@@ -1,0 +1,6 @@
+Dockerfile
+.dockerignore
+.gitignore
+.prettierrc
+README.md
+.vite

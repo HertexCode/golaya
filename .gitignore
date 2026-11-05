@@ -10,3 +10,6 @@ target/
 .vscode/
 *.iml
 .DS_Store
+
+# Herramientas de test local
+.playwright-mcp/

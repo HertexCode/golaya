@@ -98,7 +98,7 @@ function renderizarGrid(posts) {
       const fotoPortada =
         post.urlPictures && post.urlPictures.length > 0
           ? post.urlPictures[0]
-          : 'https://golaya.vercel.app/assets/img/torneodefutbol.jpg';
+          : '/assets/img/torneodefutbol.jpg';
 
       const badgeCount =
         post.urlPictures && post.urlPictures.length > 1
@@ -150,7 +150,7 @@ function abrirModalVer(post) {
   const fotos =
     post.urlPictures && post.urlPictures.length > 0
       ? post.urlPictures
-      : ['https://golaya.vercel.app/assets/img/torneodefutbol.jpg'];
+      : ['/assets/img/torneodefutbol.jpg'];
 
   if (inner && indicators) {
     indicators.innerHTML = '';
