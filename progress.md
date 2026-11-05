@@ -25,12 +25,12 @@ Registro de avance del monorepo. Ir actualizando este archivo en cada paso.
 
 ## Fase 1 — Migración de estructura (git)
 
-- [ ] 1. Commit del cambio pendiente en backend (`DevPortesBackendApplication.java`, formato)
-- [ ] 2. `git mv` de todo lo trackeado a `backend/` dentro de `DevPortes-Backend/` + commit
-- [ ] 3. Mover `.git` a la raíz `/home/netenebrae/git/golaya/` junto con `backend/` y archivos ignorados locales (`target/`, Eclipse files → `backend/`); eliminar carpeta `DevPortes-Backend/`
-- [ ] 4. Copiar `devPortes/*` (sin `.git`) → `frontend/` con `rsync --exclude .git`; llevar `.github/` del frontend a la raíz; commit
-- [ ] 5. Agregar `devPortes/` al `.gitignore` raíz + `.gitignore` raíz nuevo (`devPortes/`, `.env`, `target/`, IDE)
-- [ ] 6. Rename GitHub con `gh repo rename golaya` + `git remote set-url origin`
+- [x] 1. Commit del cambio pendiente en backend (`DevPortesBackendApplication.java`, formato) — `0784779`
+- [x] 2. `git mv` de todo lo trackeado a `backend/` (209 renames detectados) + commit — `84c0dc5`
+- [x] 3. `.git` movido a la raíz `golaya/` con `backend/` + ignorados locales (`target/`, Eclipse files → `backend/`); carpeta `DevPortes-Backend/` eliminada
+- [x] 4. `devPortes/*` copiado a `frontend/` con `rsync --exclude .git`; `.github/` a la raíz; commit — `1be9d65`
+- [x] 5. `.gitignore` raíz creado (`devPortes/`, `.env`, `target/`, IDE)
+- [x] 6. Repo renombrado a `HertexCode/golaya` con `gh` (remote actualizado automáticamente); push `b8aba07..1be9d65`
 
 ## Fase 2 — Trabajo técnico
 
@@ -59,3 +59,4 @@ Registro de avance del monorepo. Ir actualizando este archivo en cada paso.
 ## Log de cambios
 
 - **2026-11-04:** Creado `progress.md`. Plan v2 aprobado (monorepo simétrico baseado en el repo del backend).
+- **2026-11-04 — Fase 1 completa:** monorepo estructurado (`backend/` + `frontend/`) con la historia de git preservada, frontend importado, repo renombrado a `HertexCode/golaya` y todo pusheado. Commits: `0784779` (formato), `84c0dc5` (mv a backend/), `1be9d65` (import frontend).
