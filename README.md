@@ -1,15 +1,18 @@
-# Golaya — Sistema de gestión de reservas
+# Golaya — Sistema de Gestión de Reservas Deportivas
 
-Sistema web para la administración y reserva de complejos deportivos. Proyecto integrador del bootcamp Generation.
+**Golaya** es una plataforma web *full-stack* diseñada para optimizar la administración y reserva de complejos deportivos. Este sistema ofrece una solución completa y segura para gestionar espacios, usuarios y horarios de manera eficiente.
 
-Este repositorio es un **monorepo** con el frontend y el backend juntos.
+Este repositorio está estructurado como un **monorepo**, integrando tanto el cliente como la API REST en un único entorno orquestado con Docker, garantizando una experiencia de desarrollo y despliegue sin fricciones.
+
+<img width="920" height="500" alt="image" src="https://github.com/user-attachments/assets/be4cc77c-7f73-4ba2-8cc7-605c156cd721" />
+
 
 ## Inicio rápido (local)
 
 Único requisito: [Docker](https://docs.docker.com/get-docker/).
 
 ```bash
-git clone git@github.com:HertexCode/golaya.git
+https://github.com/HertexCode/golaya.git
 cd golaya
 docker compose up --build
 ```
@@ -37,7 +40,7 @@ docker compose up -d             # arrancar en segundo plano
 |---|---|
 | Frontend | http://localhost:8000 |
 | API backend | http://localhost:8080/api/v1 |
-| PostgreSQL | interno (no expuesto; ver nota abajo) |
+| PostgreSQL | interno (no expuesto) |
 
 > Para conectar un cliente de bases de datos (DBeaver, pgAdmin), agrega
 > `- "5432:5432"` al servicio `db` en `docker-compose.yml`. No está expuesto
@@ -70,47 +73,12 @@ Documentación técnica:
 
 ## Deploy
 
-- **Frontend:** [Vercel](https://golaya.vercel.app/) (estático, sin build)
-- **Backend:** [Render](https://devportes-backend.onrender.com/) (free tier)
-
-> ⚠️ **Importante tras el monorepo:** en los ajustes de ambos servicios hay que
-> indicar la subcarpeta, o el deploy fallará:
-> - **Vercel →** Root Directory = `frontend`
-> - **Render →** Root Directory = `backend`
+- **Frontend:** [Vercel](https://golaya.vercel.app/)
+- **Backend:** [Render](https://devportes-backend.onrender.com/) 
 
 ### Nota sobre el cold start
 
 Render en plan free apaga el servicio tras 15 min sin tráfico; la primera
-visita posterior tarda ~1 minuto en despertarlo. El frontend (Vercel) siempre
-es inmediato.
-
-### Variables de entorno en Render
-
-| Variable | Descripción |
-|----------|-------------|
-| `SPRING_PROFILE_ACTIVE` | `prod` |
-| `URL_DB` | URL de conexión a PostgreSQL |
-| `USERNAME_DB` / `PASSWORD_DB` | Credenciales de la base |
-| `JWT_SECRET` | Secreto JWT (mínimo 32 caracteres) |
-| `CORS_URLS` | Orígenes permitidos, separados por coma (sin espacios) |
-| `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Subida de imágenes |
-
-## Producción con Docker (Dokploy / home lab)
-
-```bash
-cp .env.example .env   # editar valores reales
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
-
-Diferencias con el modo dev: sin seed automático, `restart: unless-stopped`,
-perfil `prod` y secretos obligatorios (el compose falla si faltan).
-Para sembrar los datos de fábrica en producción:
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile seed run --rm seed
-```
-
-En Dokploy puedes apuntar directamente a este `docker-compose.yml` y definir
-las variables desde su UI. Si frontend y backend comparten dominio, cambia en
+visita posterior tarda ~1 minuto en despertarlo.
 `frontend/js/api/config.js` la URL de producción a `/api/v1` (mismo origen,
 sin CORS).
