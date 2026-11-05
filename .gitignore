@@ -1,0 +1,12 @@
+# Repo frontend original (respaldo, no forma parte del monorepo)
+devPortes/
+
+# Entorno
+.env
+
+# Build / IDE
+target/
+.idea/
+.vscode/
+*.iml
+.DS_Store
